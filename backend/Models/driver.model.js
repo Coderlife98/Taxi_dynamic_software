@@ -23,13 +23,13 @@ const driverSchema = new mongoose.Schema({
   },
   status: {
     type: Boolean,
-    required: true
+    default: false
   },
-  customer: {
-    type: Schema.Types.ObjectId,
-    ref: "Customer",
-    default: null
-  }
+  // customer: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Customer",
+  //   default: null
+  // }
 })
 
 export const Driver = mongoose.model('Driver', driverSchema)
