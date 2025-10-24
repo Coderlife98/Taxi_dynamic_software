@@ -9,6 +9,11 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
   address: {
     type: String,
     required: true
@@ -16,8 +21,12 @@ const customerSchema = new mongoose.Schema({
   mobile_no: {
     type: String,
     required: true
+  },
+  status: {
+    type: Boolean,
+    default: false
   }
 
-})
+}, { timestamps: true })
 
 export const Customer = mongoose.model('Customer', customerSchema);
