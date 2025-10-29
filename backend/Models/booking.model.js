@@ -19,13 +19,13 @@ const bookingSchema = new mongoose.Schema({
   },
   status: {
     type: Boolean,
-    default: null
+    default: false
   },
   customer: {
     type: Schema.Types.ObjectId,
     ref: 'Customer'
   },
-  driver: {
+  driver: {  
     type: Schema.Types.ObjectId,
     ref: 'Driver'
   },
