@@ -25,7 +25,7 @@ const bookingSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Customer'
   },
-  driver: {  
+  driver: {
     type: Schema.Types.ObjectId,
     ref: 'Driver'
   },
@@ -41,8 +41,6 @@ const bookingSchema = new mongoose.Schema({
     type: String,
     default: null
   },
-  type: Date,
-  default: Date.now
 }, { timestamps: true })
 
 export const Booking = mongoose.model('Booking', bookingSchema)

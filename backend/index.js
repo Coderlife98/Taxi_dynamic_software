@@ -17,7 +17,7 @@ app.use("/api/address", addressRoutes);
 app.use("/api/driver", driverRoutes);
 app.use("/api/fair", fairRoutes);
 app.use("/api/customer", customerRoutes);
-app.use("api/booking", bookingRoute)
+app.use("/api/booking", bookingRoute)
 app.listen(process.env.PORT || 4000, async (req, res) => {
   dbConfig()
   console.log(`server is running at port ${process.env.PORT} `)
