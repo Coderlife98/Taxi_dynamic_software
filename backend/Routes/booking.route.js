@@ -3,8 +3,8 @@ import { addBooking, deleteBooking, updateBooking, viewAllBooking, viewBooking }
 const router = express.Router();
 
 router.post("/add", addBooking);
-router.delete("/delete", deleteBooking);
-router.post("/update", updateBooking);
+router.delete("/delete/:id", deleteBooking);
+router.post("/update/:id", updateBooking);
 router.post("/view/:id", viewBooking);
 router.post("/viewAllBooking", viewAllBooking);
 
