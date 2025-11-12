@@ -2,39 +2,41 @@ import React from 'react'
 
 const Fair = () => {
   return (
-    <div className='flex w-full h-screen justify-center items-center'>
+    <div className='flex w-full h-screen  justify-center items-center'>
       <form
-        className="border border-slate-500 p-5"
+        className="border border-slate-500 min-w-8/12 max-w-10/12 p-5"
       >
         <h2 className="text-lg text-white font-bold mb-4">Add Fair</h2>
 
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 text-white gap-4">
           {/* Left column */}
           <div>
-            <input
-              type="text"
-              placeholder="Address"
-              name='address'
-              className="border border-slate-300 text-white w-full my-2 py-1 px-3"
-            />
-            <input
-              type="text"
-              placeholder="Pincode"
-              name='pincode'
-              className="border border-slate-300 text-white w-full my-2 py-1 px-3"
-            />
+            <div>
+              <label htmlFor="from">From</label>
+              <select name="" id="from" className='border border-slate-300 text-white w-full py-1 px-3'>
+                <option value=""></option>
+              </select>
+            </div>
+            <div className='my-3'>
+              <label htmlFor="to">To</label>
+              <select name="" id="to" className='border border-slate-300 text-white w-full py-1 px-3'>
+                <option value=""></option>
+              </select>
+            </div>
           </div>
 
           {/* Status */}
           <div>
-            <select
-              name='status'
-              className="border border-slate-300 text-white w-full py-1 px-3"
-            >
-              <option className='text-black' value="">Select Status</option>
-              <option className='text-black' value="True">True</option>
-              <option className='text-black' value="False">False</option>
-            </select>
+            <div>
+              <label htmlFor="to">To</label>
+              <select name="" id="to" className='border border-slate-300 text-white w-full py-1 px-3'>
+                <option value=""></option>
+              </select>
+            </div>
+            <div className='my-3'>
+              <label htmlFor="to">Price</label>
+              <input type="text" name='price' id='price' className='border border-slate-300 text-white w-full py-1 px-3' />
+            </div>
           </div>
         </div>
 

@@ -8,33 +8,53 @@ const Customer = () => {
       >
         <h2 className="text-lg text-white font-bold mb-4">Add Customer</h2>
 
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 text-white gap-4">
           {/* Left column */}
           <div>
-            <input
-              type="text"
-              placeholder="Address"
-              name='address'
-              className="border border-slate-300 text-white w-full my-2 py-1 px-3"
-            />
-            <input
-              type="text"
-              placeholder="Pincode"
-              name='pincode'
-              className="border border-slate-300 text-white w-full my-2 py-1 px-3"
-            />
+            <div>
+              <label htmlFor="">Name</label>
+              <input
+                type="text"
+                placeholder="Name"
+                name='address'
+                className="border border-slate-300 text-white w-full my-2 py-1 px-3"
+              />
+            </div>
+            <div>
+              <label htmlFor="">Email Id</label>
+              <input
+                type="text"
+                placeholder="Email Id"
+                name='email'
+                className="border border-slate-300 text-white w-full my-2 py-1 px-3"
+              />
+            </div>
+            <div>
+              <label htmlFor="">Date</label>
+              <input
+                type="date"
+                name='date'
+                className="border border-slate-300 text-white w-full my-2 py-1 px-3"
+              />
+            </div>
           </div>
 
           {/* Status */}
           <div>
-            <select
-              name='status'
-              className="border border-slate-300 text-white w-full py-1 px-3"
-            >
-              <option className='text-black' value="">Select Status</option>
-              <option className='text-black' value="True">True</option>
-              <option className='text-black' value="False">False</option>
-            </select>
+            <label htmlFor="">Phone No.</label>
+            <input
+              type="text"
+              placeholder="Phone No."
+              name='email'
+              className="border border-slate-300 text-white w-full my-2 py-1 px-3"
+            />
+            <label htmlFor="">Address</label>
+            <input
+              type="text"
+              placeholder="Enter Address"
+              name='email'
+              className="border border-slate-300 text-white w-full my-2 py-1 px-3"
+            />
           </div>
         </div>
 

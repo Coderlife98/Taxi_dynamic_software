@@ -13,7 +13,7 @@ import { FaNewspaper } from "react-icons/fa6";
 
 const LeftBar = () => {
   return (
-    <div className='bg-black h-full py-4  text-white'>
+    <div className='bg-black h-full py-4  lg:block hidden  text-white'>
       <ul className='lg:py-10'>
         <li className="py-2 px-6 border-l-2 border-transparent bg-transparent hover:border-l-2 hover:border-white hover:bg-gradient-to-r  hover:from-[#696026] hover:to-bg-transparent transition-all duration-500">
           <Link to="driver/add" className="text-slate-300 py-1 flex items-center">
@@ -22,31 +22,31 @@ const LeftBar = () => {
           </Link>
         </li>
         <li className="py-2 md:my-3 px-6 border-l-2 border-transparent bg-transparent hover:border-l-2 hover:border-white hover:bg-gradient-to-r  hover:from-[#696026] hover:to-bg-transparent transition-all duration-500">
-          <Link to="driver/add" className="text-slate-300 py-1 flex items-center">
+          <Link to="driver/list" className="text-slate-300 py-1 flex items-center">
             <BsFillTaxiFrontFill className='mr-2 text-xl' />
             <span>Driver</span>
           </Link>
         </li>
         <li className=' py-2 px-6 border-l-2 border-transparent bg-transparent hover:border-l-2 hover:border-white hover:bg-gradient-to-r hover:from-[#696026] hover:to-bg-transparent transition-all duration-500'>
-          <Link to="vehicle/add" className='text-slate-300 py-1 flex items-center' >
+          <Link to="vehicle/list" className='text-slate-300 py-1 flex items-center' >
             <IoIosSpeedometer className='mr-2 text-xl' />
             <span>Vehicles</span>
           </Link>
         </li>
         <li className='py-2 md:my-3 px-6 border-l-2 border-transparent bg-transparent hover:border-l-2 hover:border-white hover:bg-gradient-to-r hover:from-[#696026] hover:to-bg-transparent transition-all duration-500'>
-          <Link to="fair/add" className='text-slate-300 py-1 flex items-center' >
+          <Link to="fair/list" className='text-slate-300 py-1 flex items-center' >
             <GiMoneyStack className='mr-2 text-xl' />
             <span>Fair</span>
           </Link>
         </li>
         <li className=' py-2 px-6 border-l-2 border-transparent bg-transparent hover:border-l-2 hover:border-white hover:bg-gradient-to-r hover:from-[#696026] hover:to-bg-transparent transition-all duration-500'>
-          <Link to="customer/add" className='text-slate-300 py-1 flex items-center' >
+          <Link to="customer/list" className='text-slate-300 py-1 flex items-center' >
             <RiCustomerService2Line className='mr-2 text-xl' />
             <span>Customer</span>
           </Link>
         </li>
         <li className='py-2 md:my-3 px-6 border-l-2 border-transparent bg-transparent hover:border-l-2 hover:border-white hover:bg-gradient-to-r hover:from-[#696026] hover:to-bg-transparent transition-all duration-500'>
-          <Link to="booking/add" className='text-slate-300 py-1 flex items-center' >
+          <Link to="booking/list" className='text-slate-300 py-1 flex items-center' >
             <FiBox className='mr-2 text-xl' />
             <span>Booking</span>
           </Link>
@@ -70,7 +70,7 @@ const LeftBar = () => {
           </Link>
         </li>
         <li className='py-2 md:my-3 px-6 border-l-2 border-transparent bg-transparent hover:border-l-2 hover:border-white hover:bg-gradient-to-r hover:from-[#696026] hover:to-bg-transparent transition-all duration-500'>
-          <Link to="booking/add" className='text-slate-300 py-1 flex items-center' >
+          <Link to="news/add" className='text-slate-300 py-1 flex items-center' >
             <FaNewspaper className='mr-2 text-xl' />
             <span>News</span>
           </Link>
