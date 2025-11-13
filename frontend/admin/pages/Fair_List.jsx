@@ -1,5 +1,6 @@
 import React from 'react'
 import Breadcums from '../components/Breadcums'
+import { Link } from 'react-router-dom'
 
 const Fair_List = () => {
   return (
@@ -9,7 +10,7 @@ const Fair_List = () => {
 
       {/* Add Button start */}
       <div className='flex justify-end mt-5'>
-        <Link to="/admin/customer/add" className='bg-sky-500 py-2 px-4 rounded-t-xl'>Add Customer</Link>
+        <Link to="/admin/fair/add" className='bg-sky-500 py-2 px-4 rounded-t-xl'>Add Fair</Link>
       </div>
       {/* Add Button end */}
 
@@ -21,11 +22,7 @@ const Fair_List = () => {
               <th scope="col" className="px-6 py-3">From</th>
               <th scope="col" className="px-6 py-3">To</th>
               <th scope="col" className="px-6 py-3">Vehicle</th>
-              <th scope="col" className="px-6 py-3">Driver</th>
-              <th scope="col" className="px-6 py-3">Customer</th>
               <th scope="col" className="px-6 py-3">Status</th>
-              <th scope="col" className="px-6 py-3">Booking Start Date</th>
-              <th scope="col" className="px-6 py-3">Booking End Date</th>
               <th scope="col" className="px-6 py-3">Action</th>
             </tr>
           </thead>
@@ -38,10 +35,6 @@ const Fair_List = () => {
               <td className="px-6 py-4">Mumbai</td>
               <td className="px-6 py-4">Sedan</td>
               <td className="px-6 py-4">Rahul</td>
-              <td className="px-6 py-4">Amit</td>
-              <td className="px-6 py-4">Confirmed</td>
-              <td className="px-6 py-4">2025-11-10</td>
-              <td className="px-6 py-4">2025-11-12</td>
               <td className="px-6 py-4">
                 <button className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
                   View

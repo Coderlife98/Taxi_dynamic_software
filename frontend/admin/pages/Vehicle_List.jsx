@@ -19,14 +19,11 @@ const Vehicle_List = () => {
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">Sno</th>
-              <th scope="col" className="px-6 py-3">From</th>
-              <th scope="col" className="px-6 py-3">To</th>
-              <th scope="col" className="px-6 py-3">Vehicle</th>
-              <th scope="col" className="px-6 py-3">Driver</th>
-              <th scope="col" className="px-6 py-3">Customer</th>
-              <th scope="col" className="px-6 py-3">Status</th>
-              <th scope="col" className="px-6 py-3">Booking Start Date</th>
-              <th scope="col" className="px-6 py-3">Booking End Date</th>
+              <th scope="col" className="px-6 py-3">Name</th>
+              <th scope="col" className="px-6 py-3">Brand</th>
+              <th scope="col" className="px-6 py-3">Model</th>
+              <th scope="col" className="px-6 py-3">Color</th>
+              <th scope="col" className="px-6 py-3">Capacity of Seat</th>
               <th scope="col" className="px-6 py-3">Action</th>
             </tr>
           </thead>
@@ -40,9 +37,6 @@ const Vehicle_List = () => {
               <td className="px-6 py-4">Sedan</td>
               <td className="px-6 py-4">Rahul</td>
               <td className="px-6 py-4">Amit</td>
-              <td className="px-6 py-4">Confirmed</td>
-              <td className="px-6 py-4">2025-11-10</td>
-              <td className="px-6 py-4">2025-11-12</td>
               <td className="px-6 py-4">
                 <button className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
                   View

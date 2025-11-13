@@ -52,19 +52,19 @@ const LeftBar = () => {
           </Link>
         </li>
         <li className='py-2 md:my-3 px-6 border-l-2 border-transparent bg-transparent hover:border-l-2 hover:border-white hover:bg-gradient-to-r hover:from-[#696026] hover:to-bg-transparent transition-all duration-500'>
-          <Link to="booking/add" className='text-slate-300 py-1 flex items-center' >
+          <Link to="#" className='text-slate-300 py-1 flex items-center' >
             <GiTakeMyMoney className='mr-2 text-xl' />
             <span>Transaction</span>
           </Link>
         </li>
         <li className='py-2 md:my-3 px-6 border-l-2 border-transparent bg-transparent hover:border-l-2 hover:border-white hover:bg-gradient-to-r hover:from-[#696026] hover:to-bg-transparent transition-all duration-500'>
-          <Link to="booking/add" className='text-slate-300 py-1 flex items-center' >
+          <Link to="#" className='text-slate-300 py-1 flex items-center' >
             <TfiWrite className='mr-2 text-xl' />
             <span>Enquiry</span>
           </Link>
         </li>
         <li className='py-2 md:my-3 px-6 border-l-2 border-transparent bg-transparent hover:border-l-2 hover:border-white hover:bg-gradient-to-r hover:from-[#696026] hover:to-bg-transparent transition-all duration-500'>
-          <Link to="booking/add" className='text-slate-300 py-1 flex items-center' >
+          <Link to="#" className='text-slate-300 py-1 flex items-center' >
             <IoSettingsOutline className='mr-2 text-xl' />
             <span>Setting</span>
           </Link>

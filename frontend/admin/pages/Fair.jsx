@@ -18,7 +18,7 @@ const Fair = () => {
               </select>
             </div>
             <div className='my-3'>
-              <label htmlFor="to">To</label>
+              <label htmlFor="to">Status</label>
               <select name="" id="to" className='border border-slate-300 text-white w-full py-1 px-3'>
                 <option value=""></option>
               </select>
