@@ -1,11 +1,12 @@
 import express from "express";
 import { addAddress, deleteAddress, editAddress, viewAddress } from "../Controllers/address/address.min.js";
+import { auth } from "../Middleware/auth.js";
 
 const router = express.Router();
 
-router.post("/add", addAddress);
-router.delete("/delete/:id", deleteAddress);
-router.post("/edit/:id", editAddress);
-router.post("/view/:id", viewAddress);
+router.post("/add", auth, addAddress);
+router.delete("/delete/:id", auth, deleteAddress);
+router.post("/edit/:id", auth, editAddress);
+router.post("/view/:id", auth, viewAddress);
 
 export default router;

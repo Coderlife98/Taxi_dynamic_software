@@ -27,7 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path='/login' element={<Login />} />
-
+        
         <Route path='/admin' element={<AdminLayout />} >
           <Route path='location/add' element={<Location />} />
           <Route path='location/list' element={<Location_List />} />
