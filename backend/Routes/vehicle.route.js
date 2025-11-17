@@ -1,11 +1,12 @@
 import express from "express";
 import { addVehicle, deleteVehicleById, editVehicleById, viewVehicles } from "../Controllers/vehicle/vehicle.min.js";
+import { auth } from "../Middleware/auth.js";
 const router = express.Router();
 
-router.post("/addVehicle", addVehicle);
-router.post("/edit/:id", editVehicleById);
-router.post("/view", viewVehicles);
-router.delete("/deleteVehicle/:id", deleteVehicleById);
+router.post("/addVehicle", auth, addVehicle);
+router.post("/edit/:id", auth, editVehicleById);
+router.post("/view", auth, viewVehicles);
+router.delete("/deleteVehicle/:id", auth, deleteVehicleById);
 // router.post("/updateVehicle/:id", updateVehicle);
 
 
