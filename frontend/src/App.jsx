@@ -20,14 +20,18 @@ import Vehicle_List from './admin/pages/Vehicle_List.jsx'
 import Location_List from './admin/pages/Location_List.jsx'
 import Fair_List from './admin/pages/Fair_List.jsx'
 import Login from './Pages/Login.jsx'
+import WebsiteLayout from './Layout/WebsiteLayout.jsx'
 function App() {
 
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        
+        <Route element={<WebsiteLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path='/login' element={<Login />} />
+        </Route>
+
+        {/* ===================Admin panel Routing setup start ================== */}
         <Route path='/admin' element={<AdminLayout />} >
           <Route path='location/add' element={<Location />} />
           <Route path='location/list' element={<Location_List />} />
@@ -43,6 +47,7 @@ function App() {
           <Route path='customer/list' element={<Customer_List />} />
           <Route path='news/add' element={<News />} />
         </Route>
+        {/* ===================Admin panel Routing setup end ================== */}
       </Routes>
     </>
   )

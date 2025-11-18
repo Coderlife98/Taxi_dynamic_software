@@ -3,3 +3,7 @@
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
 }
+
+.border-1 {
+  border: 1px solid black;
+}
