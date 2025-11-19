@@ -1,12 +1,27 @@
 import React, { useState } from 'react'
-import { images } from '../constant/constant'
+import { images, url } from '../constant/constant'
 import BreadCums from '../components/BreadCums'
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios"
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleLogin = async (event) => {
-
+    event.preventDefault();
+    try {
+      const data = { email, password }
+      const response = await axios.post(`${url}/api/login`, data, { withCredentials: true });
+      if (response.data.success) {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        navigate("/admin/driver/list");
+      } else {
+        console.log("erroe")
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <div className='w-full'>
@@ -25,7 +40,7 @@ const Login = () => {
                 <input type="text" onChange={(event) => { setPassword(event.target.value) }} placeholder='Enter Password' name='password' className='focus-within:outline-0 py-1 px-2 w-full border-1 ' />
               </div>
               <div>
-                <button className='py-2 bg-blue-600 w-full'>Submit</button>
+                <button className='py-2 bg-blue-600 w-full cursor-pointer'>Submit</button>
               </div>
             </form>
           </div>

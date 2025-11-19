@@ -13,7 +13,10 @@ import bookingRoute from "./Routes/booking.route.js"
 import loginRoute from "./Routes/auth.route.js"
 import { dbConfig } from "./config/dbConfig.js";
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",  // frontend origin
+  credentials: true
+}));
 app.use(express.json());
 app.use("/api/", vehicleRoutes);
 app.use("/api/address", addressRoutes);

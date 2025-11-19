@@ -21,6 +21,7 @@ import Location_List from './admin/pages/Location_List.jsx'
 import Fair_List from './admin/pages/Fair_List.jsx'
 import Login from './Pages/Login.jsx'
 import WebsiteLayout from './Layout/WebsiteLayout.jsx'
+import PrivateRoute from './components/PrivateRoute.jsx'
 function App() {
 
   return (
@@ -32,21 +33,31 @@ function App() {
         </Route>
 
         {/* ===================Admin panel Routing setup start ================== */}
-        <Route path='/admin' element={<AdminLayout />} >
-          <Route path='location/add' element={<Location />} />
-          <Route path='location/list' element={<Location_List />} />
-          <Route path='booking/add' element={<Booking />} />
-          <Route path='booking/list' element={<Booking_List />} />
-          <Route path='driver/add' element={<Driver />} />
-          <Route path='driver/list' element={<Driver_List />} />
-          <Route path='vehicle/list' element={<Vehicle_List />} />
-          <Route path='vehicle/add' element={<Vehicles />} />
-          <Route path='fair/add' element={<Fair />} />
-          <Route path='fair/list' element={<Fair_List />} />
-          <Route path='customer/add' element={<Customer />} />
-          <Route path='customer/list' element={<Customer_List />} />
-          <Route path='news/add' element={<News />} />
+        {/* =================== Admin panel Routing setup start ================== */}
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute>
+              <AdminLayout />
+            </PrivateRoute>
+          }
+        >
+          <Route path="location/add" element={<Location />} />
+          <Route path="location/list" element={<Location_List />} />
+          <Route path="booking/add" element={<Booking />} />
+          <Route path="booking/list" element={<Booking_List />} />
+          <Route path="driver/add" element={<Driver />} />
+          <Route path="driver/list" element={<Driver_List />} />
+          <Route path="vehicle/list" element={<Vehicle_List />} />
+          <Route path="vehicle/add" element={<Vehicles />} />
+          <Route path="fair/add" element={<Fair />} />
+          <Route path="fair/list" element={<Fair_List />} />
+          <Route path="customer/add" element={<Customer />} />
+          <Route path="customer/list" element={<Customer_List />} />
+          <Route path="news/add" element={<News />} />
         </Route>
+        {/* =================== Admin panel Routing setup end ================== */}
+
         {/* ===================Admin panel Routing setup end ================== */}
       </Routes>
     </>

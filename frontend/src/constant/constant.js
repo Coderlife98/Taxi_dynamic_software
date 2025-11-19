@@ -3,3 +3,5 @@ import loginHero from "../assets/website/loginHero.png"
 export const images = {
   login_left, loginHero
 }
+
+export const url = "http://localhost:3000"

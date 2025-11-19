@@ -10,8 +10,28 @@ import { GiTakeMyMoney } from "react-icons/gi";
 import { TfiWrite } from "react-icons/tfi";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaNewspaper } from "react-icons/fa6";
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { url } from '../../constant/constant';
+import Loader from '../../components/Loader';
 
 const LeftBar = () => {
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      const operation = await axios.post(`${url}/api/logout`, {}, { withCredentials: true })
+      if (operation) {
+        setTimeout(() => {
+          <Loader />
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          navigate('/');
+        }, 3000);
+      }
+    } catch (error) {
+      console.log("Error while logout", error)
+    }
+  }
   return (
     <div className='bg-black h-full py-4  lg:block hidden  text-white'>
       <ul className='lg:py-10'>
@@ -74,6 +94,12 @@ const LeftBar = () => {
             <FaNewspaper className='mr-2 text-xl' />
             <span>News</span>
           </Link>
+        </li>
+        <li className='py-2 md:my-3 px-6 border-l-2 border-transparent bg-transparent hover:border-l-2 hover:border-white hover:bg-gradient-to-r hover:from-[#696026] hover:to-bg-transparent transition-all duration-500'>
+          <div onClick={handleLogout} className='text-slate-300 py-1 cursor-pointer flex items-center' >
+            <FaNewspaper className='mr-2 text-xl' />
+            <span>Logout</span>
+          </div>
         </li>
       </ul>
     </div>
