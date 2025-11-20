@@ -8,6 +8,7 @@ const AdminLayout = () => {
     <div>
       <Header />
       <div className="flex bg-[url('./../src/assets/Admin/bg_admin.jpg')] pt-14 bg-cover bg-center w-full min-h-screen">
+        {/* <div className='lg:w-[230px] scrollbar-hidden z-30 left-0 top-10 fixed max-h-[calc(100vh-56px)] overflow-y-auto border-r-2 border-white'> */}
         <div className='lg:w-[230px] scrollbar-hidden z-30 left-0 top-10 fixed max-h-[calc(100vh-56px)] overflow-y-auto border-r-2 border-white'>
           <LeftBar />
         </div>
