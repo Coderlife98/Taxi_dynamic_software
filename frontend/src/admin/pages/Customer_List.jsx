@@ -1,8 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Breadcums from '../components/Breadcums'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { url } from '../../constant/constant'
 
 const Customer_List = () => {
+  const token = localStorage.getItem('token');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(
+          `${url}/api/customer/viewAll`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            },
+            withCredentials: true
+          }
+        );
+
+        console.log("Customer List Data Fetched", response);
+
+      } catch (error) {
+        console.log('Error while fetching customer list data', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+
   return (
     <div className="text-white w-full px-2 ">
 

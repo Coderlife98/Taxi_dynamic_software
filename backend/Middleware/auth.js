@@ -5,8 +5,6 @@ export const auth = (req, res, next) => {
     req.cookies?.token ||    // <-- Correct
     req.headers['authorization']?.split(" ")[1];
 
-  console.log("operation", token);
-
   if (!token) {
     return res.status(401).json({ message: "Unauthorized User" });
   }
