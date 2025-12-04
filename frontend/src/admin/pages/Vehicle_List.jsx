@@ -1,8 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Breadcums from '../components/Breadcums'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { url } from '../../constant/constant'
 
 const Vehicle_List = () => {
+  const [vehcileList, setVehicleList] = useState([]);
+  useEffect(() => {
+    const vehicleList = async () => {
+      try {
+        const response = await axios.post(`${url}/api/vehicleList`);
+        setVehicleList(response.data.data);
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
+    vehicleList();
+  }, [])
+
+  useEffect(() => {
+    console.log(vehcileList);
+  }, [vehcileList])
   return (
     <div className="text-white w-full px-2 ">
 
@@ -28,22 +47,28 @@ const Vehicle_List = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                1
-              </th>
-              <td className="px-6 py-4">Delhi</td>
-              <td className="px-6 py-4">Mumbai</td>
-              <td className="px-6 py-4">Sedan</td>
-              <td className="px-6 py-4">Rahul</td>
-              <td className="px-6 py-4">Amit</td>
-              <td className="px-6 py-4">
-                <button className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                  View
-                </button>
-              </td>
-            </tr>
+            {
+              vehcileList.map((items, index) => (
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                  <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {index + 1}
+                  </th>
+                  <td className="px-6 py-4">{items.name}</td>
+                  <td className="px-6 py-4">{items.brand}</td>
+                  <td className="px-6 py-4">{items.model}</td>
+                  <td className="px-6 py-4">{items.color}</td>
+                  <td className="px-6 py-4">{items.seat_no}</td>
+                  <td className="px-6 py-4">
+                    <button className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                      View
+                    </button>
+                  </td>
+                </tr>
+              ))
+            }
           </tbody>
+
+
         </table>
       </div>
     </div>
