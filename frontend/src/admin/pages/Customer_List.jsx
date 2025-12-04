@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Breadcums from '../components/Breadcums'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { url } from '../../constant/constant'
 
 const Customer_List = () => {
   const token = localStorage.getItem('token');
+  const [data, setData] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -19,9 +21,7 @@ const Customer_List = () => {
             withCredentials: true
           }
         );
-
-        console.log("Customer List Data Fetched", response);
-
+        setData(response.data.data);
       } catch (error) {
         console.log('Error while fetching customer list data', error);
       }
@@ -30,7 +30,8 @@ const Customer_List = () => {
     fetchData();
   }, []);
 
-
+  useEffect(() => {
+  }, [data]);
 
   return (
     <div className="text-white w-full px-2 ">
@@ -50,28 +51,28 @@ const Customer_List = () => {
               <th scope="col" className="px-6 py-3">Sno</th>
               <th scope="col" className="px-6 py-3">Name</th>
               <th scope="col" className="px-6 py-3">Email Id</th>
-              <th scope="col" className="px-6 py-3">Date</th>
+              <th scope="col" className="px-6 py-3">Age</th>
               <th scope="col" className="px-6 py-3">Phone No</th>
               <th scope="col" className="px-6 py-3">Address</th>
               <th scope="col" className="px-6 py-3">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                1
-              </th>
-              <td className="px-6 py-4">Delhi</td>
-              <td className="px-6 py-4">Mumbai</td>
-              <td className="px-6 py-4">Sedan</td>
-              <td className="px-6 py-4">Rahul</td>
-              <td className="px-6 py-4">Rahul</td>
-              <td className="px-6 py-4">
-                <button className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                  View
-                </button>
-              </td>
-            </tr>
+            {data.map((item, index) => (
+              <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                <td className="px-6 py-4">{index + 1}</td>
+                <td className="px-6 py-4">{item.name}</td>
+                <td className="px-6 py-4">{item.email}</td>
+                <td className="px-6 py-4">{item.age}</td>
+                <td className="px-6 py-4">{item.mobile_no}</td>
+                <td className="px-6 py-4">{item.address}</td>
+                <td className="px-6 py-4">
+                  <button className="bg-blue-600 text-white px-3 cursor-pointer py-1 rounded hover:bg-blue-700">
+                    View
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
