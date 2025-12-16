@@ -1,67 +1,46 @@
-import React from 'react'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from "yup";
-import { useForm } from 'react-hook-form'
+import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import { url } from '../../constant/constant';
 const Driver = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const [formData, setFormData] = useState({
+    name: '',
+    mobile_no: '',
+    experience: '',
+    licence_no: '',
+    age: '',
+    status: ''
+  });
 
-  const schema = yup.object().shape({
-    name: yup.string()
-      .required('Name is required')
-      .matches(/^[A-Za-z\s]+$/, "Only letters are allowed"),
-    mobile_no: yup
-      .string()
-      .matches(/^\d{10}$/, "Mobile number must be 10 digits")
-      .required("Mobile number is required"),
-    age: yup
-      .number()
-      .typeError("Age must be a number")
-      .required("Age is required"),
-    licence_no: yup
-      .string()
-      .required('Licence No is required'),
-    experience: yup
-      .string()
-      .required('Experience is required'),
-    status: yup
-      .string()
-      .required('Status is required')
-  })
-
-  const { register, handleSubmit, reset } = useForm({
-    resolver: yupResolver(schema),
-    mode: 'onSubmit'
-  })
-
-  const onSubmit = async (data) => {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}api/driver/add`, data);
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-
-    try {
-      toast.success('Driver Added Successfully');
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}:`, value)
-      }
-      reset()
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong!");
-    }
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
   }
-  const onError = (errors) => {
-    const firstError = Object.values(errors)[0];
-    if (firstError?.message) {
-      toast.error(firstError.message)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = await axios.post(`${url}/api/driver/add`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      withCredentials: true
+    });
+    if (data) {
+      console.log(data);
+      navigate('/admin/driver/list')
+    } else {
+      console.log("err");
     }
   }
   return (
     <div className='flex w-full h-screen justify-center items-center'>
       <form
-        onSubmit={handleSubmit(onSubmit, onError)}
+        onSubmit={handleSubmit}
         className="border border-slate-500 p-5"
       >
         <h2 className="text-lg text-white font-bold mb-4">Add Driver</h2>
@@ -71,13 +50,17 @@ const Driver = () => {
           <div>
             <input
               type="text"
-              {...register('name')}
               placeholder="Name"
+              name='name'
+              value={formData.name}
+              onChange={handleChange}
               className="border border-slate-300 text-white w-full my-2 py-1 px-3"
             />
             <input
               type="text"
-              {...register('mobile_no')}
+              name='mobile_no'
+              value={formData.mobile_no}
+              onChange={handleChange}
               placeholder="Mobile Number"
               className="border border-slate-300 text-white w-full my-2 py-1 px-3"
             />
@@ -87,13 +70,17 @@ const Driver = () => {
           <div>
             <input
               type="text"
-              {...register('age')}
+              name='age'
+              value={formData.age}
+              onChange={handleChange}
               placeholder="Age"
               className="border border-slate-300 text-white w-full my-2 py-1 px-3"
             />
             <input
               type="text"
-              {...register('licence_no')}
+              name='licence_no'
+              value={formData.licence_no}
+              onChange={handleChange}
               placeholder="Licence No."
               className="border w-full border-slate-300 text-white my-2 py-1 px-3"
             />
@@ -102,8 +89,10 @@ const Driver = () => {
           {/* Seat number */}
           <div>
             <input
-              type="number"
-              {...register('experience')}
+              type="text"
+              name='experience'
+              value={formData.experience}
+              onChange={handleChange}
               placeholder="Experience"
               className="border border-slate-300 text-white w-full py-1 px-3"
             />
@@ -111,7 +100,12 @@ const Driver = () => {
 
           {/* Status */}
           <div>
-            <select {...register('status')} className="border border-slate-300 text-white w-full py-1 px-3">
+            <select
+              name='status'
+              value={formData.status}
+              onChange={handleChange}
+              className="border border-slate-300 text-white w-full py-1 px-3"
+            >
               <option className='text-black' value="">Select Status</option>
               <option className='text-black' value="true">True</option>
               <option className='text-black' value="false">False</option>
@@ -121,7 +115,7 @@ const Driver = () => {
 
         <button
           type="submit"
-          className="py-2 mt-5 w-full rounded-b-md bg-green-700 text-white"
+          className="py-2 mt-5 w-full cursor-pointer rounded-b-md bg-green-700 text-white"
         >
           Add
         </button>
