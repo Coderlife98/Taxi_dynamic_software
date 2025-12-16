@@ -1,69 +1,50 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup";
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import { url } from '../../constant/constant';
 const Vehicles = () => {
-
-  const schema = yup.object().shape({
-    name: yup.string()
-      .required("Name is required")
-      .matches(/^[A-Za-z\s]+$/, "Only letters are allowed"),
-    brand: yup.string()
-      .required("Brand is required")
-      .matches(/^[A-Za-z0-9\s.,!?'"()-]+$/, "Brand contains invalid characters"),
-    model: yup.string()
-      .required("Model is required")
-      .matches(/^[A-Za-z0-9\s]+$/, "Only letters and numbers are allowed"),
-    color: yup.string()
-      .required("Color is required")
-      .matches(/^[A-Za-z\s]+$/, "Only letters are allowed"),
-    seat_no: yup
-      .number()
-      .typeError("Seat number must be a number")
-      .required("Capacity of Seat is required")
-      .positive("Seat number must be positive")
-      .integer("Seat number must be an integer"),
-
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+  const [formData, setFormData] = useState({
+    name: '',
+    brand: '',
+    model: '',
+    color: '',
+    seat_no: '',
+    status: ''
   });
 
-  const { register, handleSubmit, reset } = useForm({
-    resolver: yupResolver(schema),
-    mode: "onSubmit",
-  });
-
-  const onSubmit = async (data) => {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}api/addVehicle`, data);
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value);
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = await axios.post(`${url}/api/addVehicle`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      withCredentials: true
     });
 
-    try {
-      toast.success("Vehicle added successfully!");
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-      }
-      reset();
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong!");
+    if (data) {
+      console.log(data);
+      navigate('/admin/vehicle/list')
+    } else {
+      console.log("error");
     }
-  };
-
-  const onError = (errors) => {
-    console.log(errors);
-    const firstError = Object.values(errors)[0];
-    if (firstError?.message) toast.error(firstError.message);
-  };
-
+  }
   return (
     <div className="flex w-full h-screen justify-center items-center">
       <form
         className="border border-white p-5"
-        onSubmit={handleSubmit(onSubmit, onError)}
-        noValidate
+        onSubmit={handleSubmit}
       >
         <h2 className="text-lg text-white font-bold mb-4">Add Vehicle</h2>
 
@@ -72,13 +53,17 @@ const Vehicles = () => {
           <div>
             <input
               type="text"
-              {...register('name')}
+              name='name'
+              value={formData.name}
+              onChange={handleChange}
               placeholder="Name"
               className="border border-slate-300 text-white w-full my-2 py-1 px-3"
             />
             <input
               type="text"
-              {...register('brand')}
+              name='brand'
+              value={formData.brand}
+              onChange={handleChange}
               placeholder="Brand"
               className="border border-slate-300 text-white w-full my-2 py-1 px-3"
             />
@@ -88,13 +73,17 @@ const Vehicles = () => {
           <div>
             <input
               type="text"
-              {...register('model')}
+              name='model'
+              onChange={handleChange}
+              value={formData.model}
               placeholder="Model"
               className="border border-slate-300 text-white w-full my-2 py-1 px-3"
             />
             <input
               type="text"
-              {...register('color')}
+              name='color'
+              onChange={handleChange}
+              value={formData.color}
               placeholder="Color"
               className="border border-slate-300 text-white w-full my-2 py-1 px-3"
             />
@@ -104,7 +93,9 @@ const Vehicles = () => {
           <div>
             <input
               type="number"
-              {...register('seat_no')}
+              onChange={handleChange}
+              value={formData.seat_no}
+              name='seat_no'
               placeholder="Capacity of Seat"
               className="border border-slate-300 text-white w-full py-1 px-3"
             />
@@ -113,11 +104,14 @@ const Vehicles = () => {
           {/* Status */}
           <div>
             <select
+              name='status'
+              value={formData.status}
+              onChange={handleChange}
               className="border border-slate-300 text-white w-full py-1 px-3"
             >
               <option className='text-black' value="">Select Status</option>
-              <option className='text-black' value="True">True</option>
-              <option className='text-black' value="False">False</option>
+              <option className='text-black' value="true">True</option>
+              <option className='text-black' value="false">False</option>
             </select>
           </div>
         </div>
