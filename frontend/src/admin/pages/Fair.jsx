@@ -1,6 +1,35 @@
-import React from 'react'
-
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { url } from '../../constant/constant';
 const Fair = () => {
+  const token = localStorage.getItem('token');
+  const [location, setLocation] = useState([]);
+  const [from, setFrom] = useState("");
+  useEffect(() => {
+    locationHandler();
+  }, [])
+  useEffect(() => {
+    console.log(location);
+    console.log(from)
+  }, [location, from])
+  const locationHandler = async () => {
+    try {
+      const fetchAddress = await axios.post(`${url}/api/address/viewAll`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        withCredentials: true
+      });
+      if (fetchAddress) {
+        setLocation(fetchAddress.data.data);
+
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
   return (
     <div className='flex w-full h-screen  justify-center items-center'>
       <form
@@ -13,8 +42,13 @@ const Fair = () => {
           <div>
             <div>
               <label htmlFor="from">From</label>
-              <select name="" id="from" className='border border-slate-300 text-white w-full py-1 px-3'>
-                <option value=""></option>
+              <select onChange={(e) => setFrom(e.target.value)} name="" id="from" className='border bg-black border-slate-300 text-white w-full py-1 px-3'>
+                <option value="">--Select --</option>
+                {
+                  location.map((items, index) => (
+                    <option key={index} value={items._id}>{items.address}</option>
+                  ))
+                }
               </select>
             </div>
             <div className='my-3'>
