@@ -5,13 +5,20 @@ const Fair = () => {
   const token = localStorage.getItem('token');
   const [location, setLocation] = useState([]);
   const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   useEffect(() => {
     locationHandler();
   }, [])
   useEffect(() => {
     console.log(location);
-    console.log(from)
-  }, [location, from])
+  }, [location])
+
+  useEffect(() => {
+    console.log("From:", from);
+    console.log("To:", to);
+  }, [from, to]);
+
+  const filteredValue = location.filter(item => item._id !== from);
   const locationHandler = async () => {
     try {
       const fetchAddress = await axios.post(`${url}/api/address/viewAll`, {}, {
@@ -52,10 +59,16 @@ const Fair = () => {
               </select>
             </div>
             <div className='my-3'>
-              <label htmlFor="to">Status</label>
-              <select name="" id="to" className='border border-slate-300 text-white w-full py-1 px-3'>
-                <option value=""></option>
+              <label htmlFor="status">Status</label>
+              <select
+                name="status"
+                id='status'
+                className="border border-slate-300 bg-black text-white w-full py-1 px-3"
+              >
+                <option value="">-- Select --</option>
+
               </select>
+
             </div>
           </div>
 
@@ -63,12 +76,21 @@ const Fair = () => {
           <div>
             <div>
               <label htmlFor="to">To</label>
-              <select name="" id="to" className='border border-slate-300 text-white w-full py-1 px-3'>
-                <option value=""></option>
+              <select
+                value={to}
+                onChange={(e) => setTo(e.target.value)} className='border border-slate-300 text-white w-full py-1 px-3'>
+                <option value="">-- Select --</option>
+                {
+                  filteredValue.map((item, index) => (
+                    <option key={index} value={item._id}>
+                      {item.address}
+                    </option>
+                  ))
+                }
               </select>
             </div>
             <div className='my-3'>
-              <label htmlFor="to">Price</label>
+              <label htmlFor="price">Price</label>
               <input type="text" name='price' id='price' className='border border-slate-300 text-white w-full py-1 px-3' />
             </div>
           </div>
