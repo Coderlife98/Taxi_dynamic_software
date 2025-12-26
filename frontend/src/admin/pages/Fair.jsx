@@ -6,6 +6,7 @@ const Fair = () => {
   const [location, setLocation] = useState([]);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const [price, setPrice] = useState("")
   useEffect(() => {
     locationHandler();
   }, [])
@@ -17,6 +18,8 @@ const Fair = () => {
     console.log("From:", from);
     console.log("To:", to);
   }, [from, to]);
+
+
 
   const filteredValue = location.filter(item => item._id !== from);
   const locationHandler = async () => {
@@ -37,9 +40,30 @@ const Fair = () => {
 
   }
 
+  const [formData, setFormData] = useState({
+    from: from,
+    to: to,
+    vehicle: '',
+    status: '',
+    price: ''
+  })
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handlerFair = async (e) => {
+    e.preventDefault();
+    console.log(formData);
+  }
+
   return (
     <div className='flex w-full h-screen  justify-center items-center'>
       <form
+        onSubmit={handlerFair}
         className="border border-slate-500 min-w-8/12 max-w-10/12 p-5"
       >
         <h2 className="text-lg text-white font-bold mb-4">Add Fair</h2>
@@ -72,13 +96,13 @@ const Fair = () => {
             </div>
           </div>
 
-          {/* Status */}
+          {/* To */}
           <div>
             <div>
               <label htmlFor="to">To</label>
               <select
                 value={to}
-                onChange={(e) => setTo(e.target.value)} className='border border-slate-300 text-white w-full py-1 px-3'>
+                onChange={(e) => setTo(e.target.value)} className='border bg-black border-slate-300 text-white w-full py-1 px-3'>
                 <option value="">-- Select --</option>
                 {
                   filteredValue.map((item, index) => (
@@ -92,6 +116,15 @@ const Fair = () => {
             <div className='my-3'>
               <label htmlFor="price">Price</label>
               <input type="text" name='price' id='price' className='border border-slate-300 text-white w-full py-1 px-3' />
+            </div>
+          </div>
+
+
+          <div>
+
+            <div className=''>
+              <label htmlFor="vehicle">Vehicle</label>
+              <input type="text" name='vehicle' placeholder='Enter Vehicle Name' id='vehicle' className='border border-slate-300 text-white w-full py-1 px-3' />
             </div>
           </div>
         </div>
