@@ -1,67 +1,87 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { url } from '../../constant/constant';
+import { useNavigate } from "react-router";
 const Fair = () => {
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
   const [location, setLocation] = useState([]);
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [price, setPrice] = useState("")
+  const [vehicle, setVehicle] = useState([]);
+  const [formData, setFormData] = useState({
+    from: '',
+    to: '',
+    vehicle: '',
+    status: '',
+    price: ''
+  });
+
+  // ================= FETCH LOCATION =================
   useEffect(() => {
     locationHandler();
-  }, [])
-  useEffect(() => {
-    console.log(location);
-  }, [location])
+    vehicleHandler();
+  }, []);
 
-  useEffect(() => {
-    console.log("From:", from);
-    console.log("To:", to);
-  }, [from, to]);
-
-
-
-  const filteredValue = location.filter(item => item._id !== from);
   const locationHandler = async () => {
     try {
-      const fetchAddress = await axios.post(`${url}/api/address/viewAll`, {}, {
+      const fetchAddress = await axios.post(
+        `${url}/api/address/viewAll`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+          withCredentials: true
+        }
+      );
+
+      if (fetchAddress) {
+        setLocation(fetchAddress.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const vehicleHandler = async () => {
+    const response = await axios.post(`${url}/api/vehicleList`);
+    setVehicle(response.data.data);
+  }
+
+  // ================= HANDLE CHANGE =================
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  // ================= FILTER TO LOCATION =================
+  const filteredValue = location.filter(
+    (item) => item._id !== formData.from
+  );
+
+  // ================= SUBMIT =================
+  const handlerFair = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${url}/api/fair/add`, formData, {
         headers: {
           Authorization: `Bearer ${token}`
         },
         withCredentials: true
       });
-      if (fetchAddress) {
-        setLocation(fetchAddress.data.data);
-
+      if (response) {
+        navigate('/admin/fair/list');
       }
     } catch (error) {
       console.log(error);
     }
-
-  }
-
-  const [formData, setFormData] = useState({
-    from: from,
-    to: to,
-    vehicle: '',
-    status: '',
-    price: ''
-  })
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const handlerFair = async (e) => {
-    e.preventDefault();
-    console.log(formData);
-  }
+  };
 
   return (
-    <div className='flex w-full h-screen  justify-center items-center'>
+    <div className="flex w-full h-screen justify-center items-center">
       <form
         onSubmit={handlerFair}
         className="border border-slate-500 min-w-8/12 max-w-10/12 p-5"
@@ -69,63 +89,91 @@ const Fair = () => {
         <h2 className="text-lg text-white font-bold mb-4">Add Fair</h2>
 
         <div className="grid md:grid-cols-2 text-white gap-4">
-          {/* Left column */}
+
+          {/* ================= FROM ================= */}
           <div>
-            <div>
-              <label htmlFor="from">From</label>
-              <select onChange={(e) => setFrom(e.target.value)} name="" id="from" className='border bg-black border-slate-300 text-white w-full py-1 px-3'>
-                <option value="">--Select --</option>
-                {
-                  location.map((items, index) => (
-                    <option key={index} value={items._id}>{items.address}</option>
-                  ))
-                }
-              </select>
-            </div>
-            <div className='my-3'>
+            <label htmlFor="from">From</label>
+            <select
+              name="from"
+              id="from"
+              value={formData.from}
+              onChange={handleChange}
+              className="border bg-black border-slate-300 text-white w-full py-1 px-3"
+            >
+              <option value="">-- Select --</option>
+              {location.map((item) => (
+                <option key={item._id} value={item._id}>
+                  {item.address}
+                </option>
+              ))}
+            </select>
+
+            {/* ================= STATUS ================= */}
+            <div className="my-3">
               <label htmlFor="status">Status</label>
               <select
                 name="status"
-                id='status'
+                id="status"
+                value={formData.status}
+                onChange={handleChange}
                 className="border border-slate-300 bg-black text-white w-full py-1 px-3"
               >
                 <option value="">-- Select --</option>
-
+                <option value="true">True</option>
+                <option value="false">False</option>
               </select>
-
             </div>
           </div>
 
-          {/* To */}
+          {/* ================= TO ================= */}
           <div>
-            <div>
-              <label htmlFor="to">To</label>
-              <select
-                value={to}
-                onChange={(e) => setTo(e.target.value)} className='border bg-black border-slate-300 text-white w-full py-1 px-3'>
-                <option value="">-- Select --</option>
-                {
-                  filteredValue.map((item, index) => (
-                    <option key={index} value={item._id}>
-                      {item.address}
-                    </option>
-                  ))
-                }
-              </select>
-            </div>
-            <div className='my-3'>
+            <label htmlFor="to">To</label>
+            <select
+              name="to"
+              id="to"
+              value={formData.to}
+              onChange={handleChange}
+              className="border bg-black border-slate-300 text-white w-full py-1 px-3"
+            >
+              <option value="">-- Select --</option>
+              {filteredValue.map((item) => (
+                <option key={item._id} value={item._id}>
+                  {item.address}
+                </option>
+              ))}
+            </select>
+
+            {/* ================= PRICE ================= */}
+            <div className="my-3">
               <label htmlFor="price">Price</label>
-              <input type="text" name='price' id='price' className='border border-slate-300 text-white w-full py-1 px-3' />
+              <input
+                type="text"
+                name="price"
+                id="price"
+                value={formData.price}
+                onChange={handleChange}
+                className="border border-slate-300 text-white w-full py-1 px-3"
+              />
             </div>
           </div>
 
-
+          {/* ================= VEHICLE ================= */}
           <div>
+            <label htmlFor="vehicle">Vehicle</label>
+            <select
+              name="vehicle"
+              value={formData.vehicle}
+              onChange={handleChange}
+              className="border bg-black border-slate-300 text-white w-full py-1 px-3"
+              id="vehicle">
+              <option value="">-- Select --</option>
+              {
+                vehicle.map((items, index) => (
+                  <option key={index} value={items._id} >{items.name}</option>
+                ))
+              }
+            </select>
 
-            <div className=''>
-              <label htmlFor="vehicle">Vehicle</label>
-              <input type="text" name='vehicle' placeholder='Enter Vehicle Name' id='vehicle' className='border border-slate-300 text-white w-full py-1 px-3' />
-            </div>
           </div>
         </div>
 
@@ -137,7 +185,7 @@ const Fair = () => {
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Fair
+export default Fair;

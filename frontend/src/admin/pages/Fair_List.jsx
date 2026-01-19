@@ -1,8 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Breadcums from '../components/Breadcums'
 import { Link } from 'react-router-dom'
-
+import axios from 'axios'
+import { url } from '../../constant/constant'
+import { MdEdit, MdDeleteOutline } from "react-icons/md";
+import { CiRead } from "react-icons/ci";
 const Fair_List = () => {
+  const [list, setList] = useState([]);
+  const token = localStorage.getItem('token');
+  const getFairList = async () => {
+    try {
+      const fetchData = await axios.post(`${url}/api/fair/viewAllFair`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        withCredentials: true
+      });
+      setList(fetchData.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    getFairList();
+  }, [])
+
+  useEffect(() => {
+    console.log("Updated list:", list);
+  }, [list]);
   return (
     <div className="text-white w-full px-2 ">
 
@@ -22,25 +47,33 @@ const Fair_List = () => {
               <th scope="col" className="px-6 py-3">From</th>
               <th scope="col" className="px-6 py-3">To</th>
               <th scope="col" className="px-6 py-3">Vehicle</th>
-              <th scope="col" className="px-6 py-3">Status</th>
+              <th scope="col" className="px-6 py-3">Price</th>
               <th scope="col" className="px-6 py-3">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                1
-              </th>
-              <td className="px-6 py-4">Delhi</td>
-              <td className="px-6 py-4">Mumbai</td>
-              <td className="px-6 py-4">Sedan</td>
-              <td className="px-6 py-4">Rahul</td>
-              <td className="px-6 py-4">
-                <button className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                  View
-                </button>
-              </td>
-            </tr>
+            {
+              list.map((items, index) => (
+                <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                  <td className="px-6 py-4">{index + 1}</td>
+                  <td className="px-6 py-4">{items.from.address}</td>
+                  <td className="px-6 py-4">{items.to.address}</td>
+                  <td className="px-6 py-4">{items.vehicle.name}</td>
+                  <td className="px-6 py-4">{items.price}</td>
+                  <td>
+                    <Link to={`/admin/fair/edit/${items._id}`} >
+                      <MdEdit className='text-lg text-blue-500 inline' />
+                    </Link>
+                    <Link to={`/admin/fair/view/${items._id}`}>
+                      <CiRead className='text-lg mx-3 text-yellow-400 inline' />
+                    </Link>
+                    <Link to={`/admin/fair/delete/${items._id}`}>
+                      <MdDeleteOutline className='text-lg text-red-400 inline' />
+                    </Link>
+                  </td>
+                </tr>
+              ))
+            }
           </tbody>
         </table>
       </div>

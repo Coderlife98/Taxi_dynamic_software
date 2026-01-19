@@ -11,6 +11,7 @@ import fairRoutes from "./Routes/fair.route.js"
 import customerRoutes from "./Routes/customer.route.js"
 import bookingRoute from "./Routes/booking.route.js"
 import loginRoute from "./Routes/auth.route.js"
+import commonRoute from "./Routes/common.route.js";
 import { dbConfig } from "./config/dbConfig.js";
 app.use(cookieParser());
 app.use(cors({
@@ -22,6 +23,7 @@ app.use("/api/", vehicleRoutes);
 app.use("/api/address", addressRoutes);
 app.use("/api/driver", driverRoutes);
 app.use("/api/fair", fairRoutes);
+app.use('/api/', commonRoute);
 app.use("/api/customer", customerRoutes);
 app.use("/api/booking", bookingRoute);
 app.use("/api", loginRoute)
