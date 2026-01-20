@@ -24,7 +24,6 @@ import WebsiteLayout from './Layout/WebsiteLayout.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
 import EditFair from './admin/pages/EditFair.jsx'
 import ViewFair from './admin/pages/ViewFair.jsx'
-import DeleteFair from './admin/pages/DeleteFair.jsx'
 function App() {
 
   return (
@@ -57,7 +56,6 @@ function App() {
           <Route path="fair/list" element={<Fair_List />} />
           <Route path="fair/edit/:id" element={<EditFair />} />
           <Route path="fair/view/:id" element={<ViewFair />} />
-          <Route path="fair/delete/:id" element={<DeleteFair />} />
           <Route path="customer/add" element={<Customer />} />
           <Route path="customer/list" element={<Customer_List />} />
           <Route path="news/add" element={<News />} />

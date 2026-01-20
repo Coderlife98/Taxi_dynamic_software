@@ -21,6 +21,19 @@ const Fair_List = () => {
       console.log(error);
     }
   }
+  const handleDelete = async (id) => {
+    try {
+      const deleteData = await axios.delete(`${url}/api/fair/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        withCredentials: true
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    getFairList();
+  }
   useEffect(() => {
     getFairList();
   }, [])
@@ -38,7 +51,6 @@ const Fair_List = () => {
         <Link to="/admin/fair/add" className='bg-sky-500 py-2 px-4 rounded-t-xl'>Add Fair</Link>
       </div>
       {/* Add Button end */}
-
       <div className="w-full lg:w-full overflow-x-auto bg-black/40 rounded-md shadow-md mt-4">
         <table className="w-full text-nowrap text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -52,7 +64,9 @@ const Fair_List = () => {
             </tr>
           </thead>
           <tbody>
-            {
+            {list.length == 0 ? (
+              <p className='py-3 text-center w-full'>No Data Avilable</p>
+            ) : (
               list.map((items, index) => (
                 <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                   <td className="px-6 py-4">{index + 1}</td>
@@ -67,13 +81,13 @@ const Fair_List = () => {
                     <Link to={`/admin/fair/view/${items._id}`}>
                       <CiRead className='text-lg mx-3 text-yellow-400 inline' />
                     </Link>
-                    <Link to={`/admin/fair/delete/${items._id}`}>
+                    <button onClick={() => { handleDelete(items._id) }} >
                       <MdDeleteOutline className='text-lg text-red-400 inline' />
-                    </Link>
+                    </button>
                   </td>
                 </tr>
               ))
-            }
+            )}
           </tbody>
         </table>
       </div>
