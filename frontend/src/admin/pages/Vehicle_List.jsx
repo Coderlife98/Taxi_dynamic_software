@@ -3,6 +3,8 @@ import Breadcums from '../components/Breadcums'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { url } from '../../constant/constant'
+import { MdDeleteOutline, MdEdit } from 'react-icons/md'
+import { CiRead } from 'react-icons/ci'
 
 const Vehicle_List = () => {
   const [vehcileList, setVehicleList] = useState([]);
@@ -58,9 +60,15 @@ const Vehicle_List = () => {
                   <td className="px-6 py-4">{items.model}</td>
                   <td className="px-6 py-4">{items.color}</td>
                   <td className="px-6 py-4">{items.seat_no}</td>
-                  <td className="px-6 py-4">
-                    <button className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                      View
+                  <td>
+                    <Link to={`/admin/fair/edit/${items._id}`} >
+                      <MdEdit className='text-lg text-blue-500 inline' />
+                    </Link>
+                    <Link to={`/admin/fair/view/${items._id}`}>
+                      <CiRead className='text-lg mx-3 text-yellow-400 inline' />
+                    </Link>
+                    <button onClick={() => { handleDelete(items._id) }} >
+                      <MdDeleteOutline className='text-lg text-red-400 inline' />
                     </button>
                   </td>
                 </tr>

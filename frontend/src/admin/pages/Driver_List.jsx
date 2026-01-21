@@ -3,6 +3,8 @@ import Breadcums from '../components/Breadcums'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { url } from '../../constant/constant'
+import { MdDeleteOutline, MdEdit } from 'react-icons/md'
+import { CiRead } from 'react-icons/ci'
 
 const Driver_List = () => {
   const [driverlist, SetDriverList] = useState([]);
@@ -47,7 +49,6 @@ const Driver_List = () => {
               <th scope="col" className="px-6 py-3">Age</th>
               <th scope="col" className="px-6 py-3">Licence No</th>
               <th scope="col" className="px-6 py-3">Experience</th>
-              <th scope="col" className="px-6 py-3">Status</th>
               <th scope="col" className="px-6 py-3">Action</th>
             </tr>
           </thead>
@@ -63,10 +64,15 @@ const Driver_List = () => {
                   <td className="px-6 py-4">{items.age}</td>
                   <td className="px-6 py-4">{items.licence_no}</td>
                   <td className="px-6 py-4">{items.experience}</td>
-                  <td className="px-6 py-4">{items.status}</td>
-                  <td className="px-6 py-4">
-                    <button className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                      View
+                  <td>
+                    <Link to={`/admin/driver/edit/${items._id}`} >
+                      <MdEdit className='text-lg text-blue-500 inline' />
+                    </Link>
+                    <Link to={`/admin/fair/view/${items._id}`}>
+                      <CiRead className='text-lg mx-3 text-yellow-400 inline' />
+                    </Link>
+                    <button onClick={() => { handleDelete(items._id) }} >
+                      <MdDeleteOutline className='text-lg text-red-400 inline' />
                     </button>
                   </td>
                 </tr>

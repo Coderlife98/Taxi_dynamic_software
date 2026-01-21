@@ -1,6 +1,8 @@
 import React from 'react'
 import Breadcums from '../components/Breadcums'
 import { Link } from 'react-router-dom'
+import { MdDeleteOutline, MdEdit } from 'react-icons/md'
+import { CiRead } from 'react-icons/ci'
 
 const Booking_List = () => {
   return (
@@ -43,11 +45,17 @@ const Booking_List = () => {
               <td className="px-6 py-4">Confirmed</td>
               <td className="px-6 py-4">2025-11-10</td>
               <td className="px-6 py-4">2025-11-12</td>
-              <td className="px-6 py-4">
-                <button className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                  View
+              {/* <td>
+                <Link to={`/admin/fair/edit/${item._id}`} >
+                  <MdEdit className='text-lg text-blue-500 inline' />
+                </Link>
+                <Link to={`/admin/fair/view/${item._id}`}>
+                  <CiRead className='text-lg mx-3 text-yellow-400 inline' />
+                </Link>
+                <button onClick={() => { handleDelete(item._id) }} >
+                  <MdDeleteOutline className='text-lg text-red-400 inline' />
                 </button>
-              </td>
+              </td> */}
             </tr>
           </tbody>
         </table>

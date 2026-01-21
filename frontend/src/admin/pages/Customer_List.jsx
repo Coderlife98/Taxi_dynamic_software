@@ -3,6 +3,8 @@ import Breadcums from '../components/Breadcums'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { url } from '../../constant/constant'
+import { MdDeleteOutline, MdEdit } from 'react-icons/md'
+import { CiRead } from 'react-icons/ci'
 
 const Customer_List = () => {
   const token = localStorage.getItem('token');
@@ -66,9 +68,15 @@ const Customer_List = () => {
                 <td className="px-6 py-4">{item.age}</td>
                 <td className="px-6 py-4">{item.mobile_no}</td>
                 <td className="px-6 py-4">{item.address}</td>
-                <td className="px-6 py-4">
-                  <button className="bg-blue-600 text-white px-3 cursor-pointer py-1 rounded hover:bg-blue-700">
-                    View
+                <td>
+                  <Link to={`/admin/fair/edit/${item._id}`} >
+                    <MdEdit className='text-lg text-blue-500 inline' />
+                  </Link>
+                  <Link to={`/admin/fair/view/${item._id}`}>
+                    <CiRead className='text-lg mx-3 text-yellow-400 inline' />
+                  </Link>
+                  <button onClick={() => { handleDelete(item._id) }} >
+                    <MdDeleteOutline className='text-lg text-red-400 inline' />
                   </button>
                 </td>
               </tr>
