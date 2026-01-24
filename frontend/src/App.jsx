@@ -23,6 +23,7 @@ import Login from './Pages/Login.jsx'
 import WebsiteLayout from './Layout/WebsiteLayout.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
 import EditFair from './admin/pages/EditFair.jsx'
+import EditDriver from './admin/pages/EditDriver.jsx'
 import ViewFair from './admin/pages/ViewFair.jsx'
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
           <Route path="booking/add" element={<Booking />} />
           <Route path="booking/list" element={<Booking_List />} />
           <Route path="driver/add" element={<Driver />} />
+          <Route path="driver/edit/:id" element={<EditDriver title="Edit Driver" />} />
           <Route path="driver/list" element={<Driver_List />} />
           <Route path="vehicle/list" element={<Vehicle_List />} />
           <Route path="vehicle/add" element={<Vehicles />} />
