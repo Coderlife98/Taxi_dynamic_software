@@ -5,8 +5,11 @@ import axios from 'axios'
 import { url } from '../../constant/constant'
 import { MdEdit, MdDeleteOutline } from "react-icons/md";
 import { CiRead } from "react-icons/ci";
+import { handleDelete } from '../../utils/utils'
+import Loader from '../../components/Loader'
 const Fair_List = () => {
   const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(false);
   const token = localStorage.getItem('token');
   const getFairList = async () => {
     try {
@@ -21,19 +24,22 @@ const Fair_List = () => {
       console.log(error);
     }
   }
-  const handleDelete = async (id) => {
-    try {
-      const deleteData = await axios.delete(`${url}/api/fair/delete/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-        withCredentials: true
-      });
-    } catch (error) {
-      console.log(error);
+  // +++++++++++++++++++  Delete Driver start +++++++++++++++++++++++++++++++++++++++++++++++++
+  const onDeleteDriver = async (id) => {
+    setLoading(true);
+    const success = await handleDelete(id, "fair");
+    if (success) {
+      setTimeout(async () => {
+        await getFairList();
+        setLoading(false);
+      }, 500);
+      getFairList();
     }
-    getFairList();
-  }
+  };
+  // +++++++++++++++++++  Delete Driver end +++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
   useEffect(() => {
     getFairList();
   }, [])
@@ -42,56 +48,61 @@ const Fair_List = () => {
     console.log("Updated list:", list);
   }, [list]);
   return (
-    <div className="text-white w-full px-2 ">
+    <>
+      {
+        loading && <Loader />
+      }
+      <div className="text-white w-full px-2 ">
 
-      <Breadcums title="Fair List" />
+        <Breadcums title="Fair List" />
 
-      {/* Add Button start */}
-      <div className='flex justify-end mt-5'>
-        <Link to="/admin/fair/add" className='bg-sky-500 py-2 px-4 rounded-t-xl'>Add Fair</Link>
+        {/* Add Button start */}
+        <div className='flex justify-end mt-5'>
+          <Link to="/admin/fair/add" className='bg-sky-500 py-2 px-4 rounded-t-xl'>Add Fair</Link>
+        </div>
+        {/* Add Button end */}
+        <div className="w-full lg:w-full overflow-x-auto bg-black/40 rounded-md shadow-md mt-4">
+          <table className="w-full text-nowrap text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" className="px-6 py-3">Sno</th>
+                <th scope="col" className="px-6 py-3">From</th>
+                <th scope="col" className="px-6 py-3">To</th>
+                <th scope="col" className="px-6 py-3">Vehicle</th>
+                <th scope="col" className="px-6 py-3">Price</th>
+                <th scope="col" className="px-6 py-3">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {list.length == 0 ? (
+                <p className='py-3 text-center w-full'>No Data Avilable</p>
+              ) : (
+                list.map((items, index) => (
+                  <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                    <td className="px-6 py-4">{index + 1}</td>
+                    <td className="px-6 py-4">{items.from.address}</td>
+                    <td className="px-6 py-4">{items.to.address}</td>
+                    <td className="px-6 py-4">{items.vehicle.name}</td>
+                    <td className="px-6 py-4">{items.price}</td>
+                    <td>
+                      <Link to={`/admin/fair/edit/${items._id}`} >
+                        <MdEdit className='text-lg text-blue-500 cursor-pointer inline' />
+                      </Link>
+                      <Link to={`/admin/fair/view/${items._id}`}>
+                        <CiRead className='text-lg mx-3 text-yellow-400 cursor-pointer inline' />
+                      </Link>
+                      <button onClick={() => { onDeleteDriver(items._id) }} >
+                        <MdDeleteOutline className='text-lg text-red-400 cursor-pointer inline' />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-      {/* Add Button end */}
-      <div className="w-full lg:w-full overflow-x-auto bg-black/40 rounded-md shadow-md mt-4">
-        <table className="w-full text-nowrap text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" className="px-6 py-3">Sno</th>
-              <th scope="col" className="px-6 py-3">From</th>
-              <th scope="col" className="px-6 py-3">To</th>
-              <th scope="col" className="px-6 py-3">Vehicle</th>
-              <th scope="col" className="px-6 py-3">Price</th>
-              <th scope="col" className="px-6 py-3">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {list.length == 0 ? (
-              <p className='py-3 text-center w-full'>No Data Avilable</p>
-            ) : (
-              list.map((items, index) => (
-                <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                  <td className="px-6 py-4">{index + 1}</td>
-                  <td className="px-6 py-4">{items.from.address}</td>
-                  <td className="px-6 py-4">{items.to.address}</td>
-                  <td className="px-6 py-4">{items.vehicle.name}</td>
-                  <td className="px-6 py-4">{items.price}</td>
-                  <td>
-                    <Link to={`/admin/fair/edit/${items._id}`} >
-                      <MdEdit className='text-lg text-blue-500 inline' />
-                    </Link>
-                    <Link to={`/admin/fair/view/${items._id}`}>
-                      <CiRead className='text-lg mx-3 text-yellow-400 inline' />
-                    </Link>
-                    <button onClick={() => { handleDelete(items._id) }} >
-                      <MdDeleteOutline className='text-lg text-red-400 inline' />
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    </>
   )
 }
 
