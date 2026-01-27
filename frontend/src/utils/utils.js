@@ -1,6 +1,5 @@
 import axios from "axios";
 import { url } from "../constant/constant";
-
 const token = localStorage.getItem('token');
 export const handleDelete = async (id, module) => {
   try {
@@ -16,3 +15,5 @@ export const handleDelete = async (id, module) => {
     return false;
   }
 }
+
+
