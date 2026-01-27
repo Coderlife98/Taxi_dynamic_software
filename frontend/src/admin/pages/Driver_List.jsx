@@ -5,26 +5,47 @@ import axios from 'axios'
 import { url } from '../../constant/constant'
 import { MdDeleteOutline, MdEdit } from 'react-icons/md'
 import { CiRead } from 'react-icons/ci'
+import { handleDelete } from '../../utils/utils'
+import Loader from '../../components/Loader'
 
 const Driver_List = () => {
   const [driverlist, SetDriverList] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // +++++++++++++++++++  Delete Driver start +++++++++++++++++++++++++++++++++++++++++++++++++
+  const onDeleteDriver = async (id) => {
+    setLoading(true);
+    const success = await handleDelete(id, "driver");
+    if (success) {
+      setTimeout(async () => {
+        await getDriverList();
+        setLoading(false);
+      }, 1000);
+      getDriverList();
+    }
+  };
+  // +++++++++++++++++++  Delete Driver end +++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+  // +++++++++++++++++++  Fetch Driver start +++++++++++++++++++++++++++++++++++++++++++++++++
+  const getDriverList = async () => {
+    try {
+      const response = await axios.post(`${url}/api/driver/driverlist`);
+      SetDriverList(response.data.data);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  // +++++++++++++++++++  Fetch Driver start +++++++++++++++++++++++++++++++++++++++++++++++++
+
 
   useEffect(() => {
-    const getDriverList = async () => {
-      try {
-        const response = await axios.post(`${url}/api/driver/driverlist`);
-        SetDriverList(response.data.data);
-
-      } catch (error) {
-        console.log(error);
-      }
-    }
     getDriverList();
   }, [])
 
-
   useEffect(() => {
-    console.log("Updated driverlist:", driverlist);
   }, [driverlist]);
 
 
@@ -33,7 +54,7 @@ const Driver_List = () => {
 
       <Breadcums title="Driver List" />
 
-
+      {loading && <Loader />}
       <div className='flex justify-end mt-5'>
         <Link to="/admin/driver/add" className='bg-sky-500 py-2 px-4 rounded-t-xl'>Add Driver</Link>
       </div>
@@ -66,13 +87,13 @@ const Driver_List = () => {
                   <td className="px-6 py-4">{items.experience}</td>
                   <td>
                     <Link to={`/admin/driver/edit/${items._id}`} >
-                      <MdEdit className='text-lg text-blue-500 inline' />
+                      <MdEdit className='text-lg text-blue-500 cursor-pointer inline' />
                     </Link>
                     <Link to={`/admin/fair/view/${items._id}`}>
-                      <CiRead className='text-lg mx-3 text-yellow-400 inline' />
+                      <CiRead className='text-lg mx-3 text-yellow-400 cursor-pointer inline' />
                     </Link>
-                    <button onClick={() => { handleDelete(items._id) }} >
-                      <MdDeleteOutline className='text-lg text-red-400 inline' />
+                    <button onClick={() => { onDeleteDriver(items._id) }} >
+                      <MdDeleteOutline className='text-lg text-red-400 cursor-pointer inline' />
                     </button>
                   </td>
                 </tr>

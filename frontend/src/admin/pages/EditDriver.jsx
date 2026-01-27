@@ -1,10 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { url } from '../../constant/constant';
 
 const EditDriver = ({ title }) => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const token = localStorage.getItem('token');
   const [data, setData] = useState({
     name: {},
@@ -30,8 +31,22 @@ const EditDriver = ({ title }) => {
       console.log(error);
     }
   }
-  const handleSubmit = async () => {
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${url}/api/driver/updateDriverById/${id}`, { data }, {
+        headers: {
+          Authorization: `Bearer${token}`
+        },
+        withCredentials: true
+      })
+      if (response) {
+        console.log("data updated Successfully");
+        navigate('/admin/driver/list');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
   useEffect(() => {
     getData()
