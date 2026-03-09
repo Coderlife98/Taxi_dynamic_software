@@ -17,3 +17,13 @@ export const handleDelete = async (id, module) => {
 }
 
 
+export const viewById = async (id, module) => {
+  try {
+    const response = await axios.post(`${url}/api/${module}/view/${id}`);
+    console.log(response);
+  } catch (error) {
+
+  }
+}
+
+
